@@ -6,15 +6,19 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.GroundIntakeConstants;
+import frc.robot.Constants.GroundPivotConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.AutoCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.RollerCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
-import frc.robot.subsystems.CANRollerSubsystem;
+import frc.robot.subsystems.SUB_GroundIntake;
+import frc.robot.subsystems.SUB_GroundPivot;
+import frc.robot.subsystems.SUB_Pneumatics;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -27,16 +31,16 @@ import frc.robot.subsystems.CANRollerSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
-  private final CANRollerSubsystem rollerSubsystem = new CANRollerSubsystem();
+  private static CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
+  public static SUB_GroundIntake groundIntake = SUB_GroundIntake.getInstance();
+  public static SUB_GroundPivot groundPivot = SUB_GroundPivot.getInstance();
+  public static SUB_Pneumatics pneumatics = SUB_Pneumatics.getInstance();
 
-  // The driver's controller
-  private final CommandXboxController driverController = new CommandXboxController(
-      OperatorConstants.DRIVER_CONTROLLER_PORT);
 
-  // The operator's controller
-  private final CommandXboxController operatorController = new CommandXboxController(
-      OperatorConstants.OPERATOR_CONTROLLER_PORT);
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final CommandXboxController Driver1 = new CommandXboxController(OperatorConstants.kDriver1ControllerPort);
+
+  private final CommandXboxController Driver2 = new CommandXboxController(OperatorConstants.kDriver2ControllerPort);
 
   // The autonomous chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -69,13 +73,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Set the A button to run the "RollerCommand" command with a fixed
-    // value ejecting the gamepiece while the button is held
-
-    // before
-    operatorController.a()
-        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
@@ -83,19 +80,24 @@ public class RobotContainer {
     // value). Similarly for the X axis where we need to flip the value so the
     // joystick matches the WPILib convention of counter-clockwise positive
     driveSubsystem.setDefaultCommand(new DriveCommand(
-        () -> -driverController.getLeftY() *
-            (driverController.getHID().getRightBumperButton() ? 1 : 0.5),
-        () -> -driverController.getRightX(),
+        () -> -Driver1.getLeftY() *
+            (Driver1.getHID().getRightBumperButton() ? 1 : 0.5),
+        () -> -Driver1.getRightX(),
         driveSubsystem));
 
-    // Set the default command for the roller subsystem to an instance of
-    // RollerCommand with the values provided by the triggers on the operator
-    // controller
-    rollerSubsystem.setDefaultCommand(new RollerCommand(
-        () -> operatorController.getRightTriggerAxis(),
-        () -> operatorController.getLeftTriggerAxis(),
-        rollerSubsystem));
+    groundIntake.setDefaultCommand(
+          new RunCommand(() -> groundIntake.groundIntakeDetection(()->groundPivot.nearIntakeSetpoint()), groundIntake));
+  
+    groundPivot.setDefaultCommand(
+          new RunCommand(() -> groundPivot.drivePivotPID(), groundPivot));
+
+  Driver2.start().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kIntakePos)));
+                Driver2.leftStick().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kStowPos)));
+                Driver2.back().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kScorePos)));
+                Driver2.rightStick().whileTrue(new RunCommand(()->groundIntake.setGroundIntake(GroundIntakeConstants.kGroundEjectSpeed)));
+
   }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -33,8 +33,22 @@ public final class Constants {
     public static final double ROLLER_EJECT_VALUE = 0.44;
   }
 
-  public static final class OperatorConstants {
-    public static final int DRIVER_CONTROLLER_PORT = 0;
-    public static final int OPERATOR_CONTROLLER_PORT = 1;
+  public static class OperatorConstants {
+    public static final int kDriver1ControllerPort = 0;
+    public static final int kDriver2ControllerPort = 1;
+    public static final double kDriveDeadband = 0.05;
+}
+
+  public static class GroundIntakeConstants {
+    public static final int kGroundIntakeCanID = 51;
+    public static final double kGroundIntakeSpeed = -0.45;
+    public static final double kGroundEjectSpeed = 0.45;
+  }
+  public static class GroundPivotConstants {
+    public static final int kGroundPivotCanID = 52;
+    public static final double kIntakePos = 135;
+    public static final double kIntakeThreshold = 10; 
+    public static final double kStowPos = 0;
+    public static final double kScorePos = 25; 
   }
 }
