@@ -4,10 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.GroundIntakeConstants;
@@ -40,7 +44,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController Driver1 = new CommandXboxController(OperatorConstants.kDriver1ControllerPort);
 
-  private final CommandXboxController Driver2 = new CommandXboxController(OperatorConstants.kDriver2ControllerPort);
+  //private final CommandXboxController Driver2 = new CommandXboxController(OperatorConstants.kDriver2ControllerPort);
 
   // The autonomous chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -91,11 +95,19 @@ public class RobotContainer {
     groundPivot.setDefaultCommand(
           new RunCommand(() -> groundPivot.drivePivotPID(), groundPivot));
 
-  Driver2.start().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kIntakePos)));
-                Driver2.leftStick().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kStowPos)));
-                Driver2.back().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kScorePos)));
-                Driver2.rightStick().whileTrue(new RunCommand(()->groundIntake.setGroundIntake(GroundIntakeConstants.kGroundEjectSpeed)));
-
+  Driver1.start().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kIntakePos)));
+    Driver1.leftStick().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kStowPos)));
+    Driver1.back().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kScorePos)));
+    Driver1.rightStick().whileTrue(new RunCommand(()->groundIntake.setGroundIntake(GroundIntakeConstants.kGroundEjectSpeed)));
+  Driver1.x().onTrue(new SequentialCommandGroup(
+    new ParallelCommandGroup(
+      new InstantCommand(()-> pneumatics.pistonGo(), pneumatics),
+      new InstantCommand(() -> Driver1.getHID().setRumble(RumbleType.kBothRumble, 1))),
+    new WaitCommand(.25),
+    new ParallelCommandGroup(
+      new InstantCommand(()-> Driver1.getHID().setRumble(RumbleType.kBothRumble, 0)),
+      new InstantCommand(()-> pneumatics.pistonReverse(), pneumatics))));
+  Driver1.y().onTrue(new InstantCommand(()-> pneumatics.pistonToggle(), pneumatics));
   }
 
 

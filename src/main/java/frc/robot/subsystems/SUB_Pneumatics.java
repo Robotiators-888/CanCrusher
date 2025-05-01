@@ -1,39 +1,47 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SUB_Pneumatics extends SubsystemBase{
     private static SUB_Pneumatics INSTANCE = null;
 
-// Solenoid constructor is (6,7) the 6 is the solenoid input, 7 is solenoid output
+
+    StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault()
+  .getStructTopic("AdvantageScopeOdometry", Pose2d.struct).publish();
+
+    // Solenoid constructor is (6,7) the 6 is the solenoid input, 7 is solenoid output
     // TODO: change the input and output values for the new penumatits system
     static DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7);
     //private final Solenoid m_solenoid = new Solenoid(PneumaticsModuleType.REVPH, 0); 
     //singular solonoids for penumatic switches  /\
-    Compressor Compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-     
+    Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+    
     
     public SUB_Pneumatics(){
-        piston.set(Value.kReverse);
+      piston.set(Value.kReverse);
     }
 
     // Causes Piston to fire forward
-    public static void pistonGo() {
-        piston.set(Value.kForward);
+    public void pistonGo() {
+      piston.set(Value.kForward);
     }
 
     // Causes Piston to return to unfired position
-    public static void PistonReverse() {
-        piston.set(Value.kReverse);
+    public void pistonReverse() {
+      piston.set(Value.kReverse);
     }
 
     // toggles the piston to fire again
-    public void PistonToggle() {
-        piston.toggle();
+    public void pistonToggle() {
+      piston.toggle();
     }
 
     public static SUB_Pneumatics getInstance() {
@@ -43,8 +51,33 @@ public class SUB_Pneumatics extends SubsystemBase{
         return INSTANCE;
     }
 
-    public void periodic() {
+    public double getCompressorCurrent() {
+      return compressor.getCurrent();
     }
+
+    public boolean isCompressorEnabled() {
+      return compressor.isEnabled();
+    }
+
+    public void toggleCompressor() {
+      if (compressor.isEnabled()) {
+        compressor.disable();
+      } else {
+        compressor.enableDigital();
+      }
+    }
+
+    public boolean getPressureSwitchValue() {
+      return compressor.getPressureSwitchValue();
+    }
+
+    public void periodic() {
+    SmartDashboard.putNumber("Compressor Current", getCompressorCurrent());    
+    SmartDashboard.putBoolean("Compressor Enabled", isCompressorEnabled());
+    SmartDashboard.putBoolean("Pressure Switch Value", getPressureSwitchValue());
+    }
+
+    
 
     //  m_solenoid.set(m_stick.getRawButton(kSolenoidButton));
     // - can be used for enabling the piston using a true or false statment
