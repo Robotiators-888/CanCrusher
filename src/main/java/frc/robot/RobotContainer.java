@@ -99,14 +99,14 @@ public class RobotContainer {
     Driver1.leftStick().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kStowPos)));
     Driver1.back().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kScorePos)));
     Driver1.rightStick().whileTrue(new RunCommand(()->groundIntake.setGroundIntake(GroundIntakeConstants.kGroundEjectSpeed)));
+  
   Driver1.x().onTrue(new SequentialCommandGroup(
     new ParallelCommandGroup(
-      new InstantCommand(()-> pneumatics.pistonGo(), pneumatics),
-      new InstantCommand(() -> Driver1.getHID().setRumble(RumbleType.kBothRumble, 1))),
+      new InstantCommand(()-> pneumatics.pistonGo(), pneumatics)),
     new WaitCommand(.25),
     new ParallelCommandGroup(
-      new InstantCommand(()-> Driver1.getHID().setRumble(RumbleType.kBothRumble, 0)),
       new InstantCommand(()-> pneumatics.pistonReverse(), pneumatics))));
+  
   Driver1.y().onTrue(new InstantCommand(()-> pneumatics.pistonToggle(), pneumatics));
   }
 

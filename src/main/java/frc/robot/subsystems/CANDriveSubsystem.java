@@ -11,6 +11,8 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+// import edu.wpi.first.wpilibj.motorcontrol.Talon; 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX; 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
@@ -21,6 +23,11 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final SparkMax rightLeader;
   private final SparkMax rightFollower;
 
+  // private final Talon leftleaderTalon;
+  // private final Talon leftfollowerTalon;
+  // private final Talon rightleaderTalon;
+  // private final Talon rightfollowerTalon;
+
   private final DifferentialDrive drive;
 
   public CANDriveSubsystem() {
@@ -29,6 +36,17 @@ public class CANDriveSubsystem extends SubsystemBase {
     leftFollower = new SparkMax(DriveConstants.LEFT_FOLLOWER_ID, MotorType.kBrushed);
     rightLeader = new SparkMax(DriveConstants.RIGHT_LEADER_ID, MotorType.kBrushed);
     rightFollower = new SparkMax(DriveConstants.RIGHT_FOLLOWER_ID, MotorType.kBrushed);
+
+    // WPI_TalonSRX LeftLeader = new WPI_TalonSRX(RobotMap.LEFT_LEADER_ID);
+    // WPI_TalonSRX RightLeader = new WPI_TalonSRX(RobotMap.RIGHT_LEADER_ID);
+
+    // WPI_TalonSRX leftFollow = new WPI_TalonSRX(RobotMap.LEFT_FOLLOWER_ID);
+    // WPI_TalonSRX rightFollow = new WPI_TalonSRX(RobotMap.RIGHT_FOLLOWER_ID);
+     
+    // leftFollow.follow(leftLeader);
+    // rightFollow.follow(rightLeader);
+
+// TODO: Find what RobotMap is.
 
     // set up differential drive class
     drive = new DifferentialDrive(leftLeader, rightLeader);
@@ -68,8 +86,7 @@ public class CANDriveSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-  }
+  public void periodic() {}
 
   // sets the speed of the drive motors
   public void driveArcade(double xSpeed, double zRotation) {
