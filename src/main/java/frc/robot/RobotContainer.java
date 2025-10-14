@@ -18,6 +18,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
 
 
 /**
@@ -31,7 +32,8 @@ import frc.robot.subsystems.CANDriveSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private static CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
+  private static CANDriveSubsystem driveSubsystem = CANDriveSubsystem.getInstance();
+  private static PneumaticsSubsystem pneumatics = PneumaticsSubsystem.getInstance();
 
 
 

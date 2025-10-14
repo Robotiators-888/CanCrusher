@@ -18,6 +18,7 @@ import frc.robot.Constants.DriveConstants;
 
 // Class to drive the robot over CAN
 public class CANDriveSubsystem extends SubsystemBase {
+  private static CANDriveSubsystem INSTANCE = null;
   private final SparkMax leftLeader;
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
@@ -30,7 +31,17 @@ public class CANDriveSubsystem extends SubsystemBase {
 
   private final DifferentialDrive drive;
 
-  public CANDriveSubsystem() {
+  static public CANDriveSubsystem getInstance () {
+    if (INSTANCE == null) {
+      INSTANCE = new CANDriveSubsystem();
+      return INSTANCE;
+    }
+    else {
+      return INSTANCE;
+    }
+  }
+
+  private CANDriveSubsystem() {
     // create brushed motors for drive
     leftLeader = new SparkMax(DriveConstants.LEFT_LEADER_ID, MotorType.kBrushed);
     leftFollower = new SparkMax(DriveConstants.LEFT_FOLLOWER_ID, MotorType.kBrushed);
