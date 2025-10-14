@@ -84,14 +84,14 @@ public class RobotContainer {
         driveSubsystem));
 
   
-  Driver1.x().onTrue(new SequentialCommandGroup(
-    new ParallelCommandGroup(
-      new InstantCommand(()-> pneumatics.pistonGo(), pneumatics)),
-    new WaitCommand(.25),
-    new ParallelCommandGroup(
-      new InstantCommand(()-> pneumatics.pistonReverse(), pneumatics))));
+  // Driver1.x().onTrue(new SequentialCommandGroup(
+  //   new ParallelCommandGroup(
+  //     new InstantCommand(()-> pneumatics.pistonGo(), pneumatics)),
+  //   new WaitCommand(.25),
+  //   new ParallelCommandGroup(
+  //     new InstantCommand(()-> pneumatics.pistonReverse(), pneumatics))));
   
-  Driver1.y().onTrue(new InstantCommand(()-> pneumatics.pistonToggle(), pneumatics));
+  // Driver1.y().onTrue(new InstantCommand(()-> pneumatics.pistonToggle(), pneumatics));
   }
 
 
