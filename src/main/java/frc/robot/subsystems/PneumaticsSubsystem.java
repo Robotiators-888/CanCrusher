@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PneumaticsSubsystem extends SubsystemBase {
-
+static private PneumaticsSubsystem INSTANCE = null;
     // Solenoid constructor is (6,7) the 6 is the solenoid input, 7 is solenoid
     // output
     static DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7);
@@ -34,6 +34,16 @@ public class PneumaticsSubsystem extends SubsystemBase {
 
     public void periodic() {
 
+    }
+    static public PneumaticsSubsystem getInstance() {
+        if (INSTANCE == null){
+
+            INSTANCE = new PneumaticsSubsystem();
+            return INSTANCE;
+        } 
+        else{
+            return INSTANCE;
+        }
     }
 
 }
