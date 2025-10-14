@@ -79,10 +79,12 @@ public class CANDriveSubsystem extends SubsystemBase {
     // Remove following, then apply config to right leader
     config.disableFollowerMode();
     rightLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    // Set conifg to inverted and then apply to left leader. Set Left side inverted
+    leftLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // Set conifg to inverted and then applied to left Follower and right Follower. Set Left side inverted
     // so that postive values drive both sides forward
     config.inverted(true);
-    leftLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    leftFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    rightFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
