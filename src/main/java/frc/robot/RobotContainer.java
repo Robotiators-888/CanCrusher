@@ -14,15 +14,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.GroundIntakeConstants;
-import frc.robot.Constants.GroundPivotConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
-import frc.robot.subsystems.SUB_GroundIntake;
-import frc.robot.subsystems.SUB_GroundPivot;
-import frc.robot.subsystems.SUB_Pneumatics;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -36,9 +32,7 @@ import frc.robot.subsystems.SUB_Pneumatics;
 public class RobotContainer {
   // The robot's subsystems
   private static CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
-  public static SUB_GroundIntake groundIntake = SUB_GroundIntake.getInstance();
-  public static SUB_GroundPivot groundPivot = SUB_GroundPivot.getInstance();
-  public static SUB_Pneumatics pneumatics = SUB_Pneumatics.getInstance();
+
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -89,16 +83,6 @@ public class RobotContainer {
         () -> -Driver1.getRightX(),
         driveSubsystem));
 
-    groundIntake.setDefaultCommand(
-          new RunCommand(() -> groundIntake.groundIntakeDetection(()->groundPivot.nearIntakeSetpoint()), groundIntake));
-  
-    groundPivot.setDefaultCommand(
-          new RunCommand(() -> groundPivot.drivePivotPID(), groundPivot));
-
-  Driver1.start().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kIntakePos)));
-    Driver1.leftStick().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kStowPos)));
-    Driver1.back().onTrue(new InstantCommand(()-> groundPivot.changeSetpoint(GroundPivotConstants.kScorePos)));
-    Driver1.rightStick().whileTrue(new RunCommand(()->groundIntake.setGroundIntake(GroundIntakeConstants.kGroundEjectSpeed)));
   
   Driver1.x().onTrue(new SequentialCommandGroup(
     new ParallelCommandGroup(
