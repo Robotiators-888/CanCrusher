@@ -19,12 +19,12 @@ static private PneumaticsSubsystem INSTANCE = null;
     }
 
     // Causes Piston to return to unfired position
-    public static void PistonReverse() {
+    public static void pistonReverse() {
         piston.set(Value.kReverse);
     }
 
     // toggles the piston to fire again
-    public void PistonToggle() {
+    public void pistonToggle() {
         piston.toggle();
     }
 
