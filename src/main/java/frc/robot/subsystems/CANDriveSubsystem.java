@@ -14,22 +14,36 @@ import frc.robot.Constants.DriveConstants;
 public class CANDriveSubsystem extends SubsystemBase {
 
   private final DifferentialDrive drive;
+  static CANDriveSubsystem INSTANCE = null;
+  WPI_TalonSRX LeftLeader;
+  WPI_TalonSRX RightLeader;
+  WPI_TalonSRX LeftFollower;
+  WPI_TalonSRX RightFollower;
 
-  public CANDriveSubsystem() {
+
+  static public CANDriveSubsystem getInstance () {
+    if (INSTANCE == null) {
+      INSTANCE = new CANDriveSubsystem();
+      return INSTANCE;
+    }
+    else {
+      return INSTANCE;
+    }
+  }
+
+  private CANDriveSubsystem() {
     // create brushed motors for drive
-    WPI_TalonSRX LeftLeader = new WPI_TalonSRX(DriveConstants.LEFT_LEADER_ID);
-    WPI_TalonSRX RightLeader = new WPI_TalonSRX(DriveConstants.RIGHT_LEADER_ID);
+    LeftLeader = new WPI_TalonSRX(DriveConstants.LEFT_LEADER_ID);
+    RightLeader = new WPI_TalonSRX(DriveConstants.RIGHT_LEADER_ID);
 
-    WPI_TalonSRX LeftFollower = new WPI_TalonSRX(DriveConstants.LEFT_FOLLOWER_ID);
-    WPI_TalonSRX RightFollower = new WPI_TalonSRX(DriveConstants.RIGHT_FOLLOWER_ID);
+    LeftFollower = new WPI_TalonSRX(DriveConstants.LEFT_FOLLOWER_ID);
+    RightFollower = new WPI_TalonSRX(DriveConstants.RIGHT_FOLLOWER_ID);
      
     // set up differential drive class
     drive = new DifferentialDrive(LeftLeader, RightLeader);
     LeftFollower.follow(LeftLeader);
-    RightFollower.follow(RightLeader);
-    
-//usb cable, weird type,  connect to rio, then phenix (note)
-
+    RightFollower.follow(RightLeader); 
+    //usb cable, weird type,  connect to rio, then phenix (note)
   }
 
   @Override

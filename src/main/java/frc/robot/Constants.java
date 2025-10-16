@@ -32,23 +32,10 @@ public final class Constants {
     public static final double kDriveDeadband = 0.05;
 }
 
-  public static class GroundIntakeConstants {
-    public static final int kGroundIntakeCanID = 51;
-    public static final double kGroundIntakeSpeed = -0.45;
-    public static final double kGroundEjectSpeed = 0.45;
-  }
-  public static class GroundPivotConstants {
-    public static final int kGroundPivotCanID = 52;
-    public static final double kIntakePos = 135;
-    public static final double kIntakeThreshold = 10; 
-    public static final double kStowPos = 0;
-    public static final double kScorePos = 25; 
-  }
-  public static class LEDs {
-    public static final int kPWMPort = 9;
-    public static final double kColorGreen = 0.77;
-    public static final double kColorRed = 0.61;
-    public static final double kParty_Palette_Twinkles = -0.53;
+public static class LED {
+  public static final int kPWMPort = 9;
+  public static final double kColorGreen = 0.77;
+  public static final double kColorRed = 0.61;
+  public static final double kParty_Palette_Twinkles = -0.53;
 }
 }
-
