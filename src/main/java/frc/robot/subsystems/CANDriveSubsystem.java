@@ -13,11 +13,6 @@ import frc.robot.Constants.DriveConstants;
 // Class to drive the robot over CAN
 public class CANDriveSubsystem extends SubsystemBase {
 
-  private final Talon leftleader;
-  private final Talon leftfollower;
-  private final Talon rightleader;
-  private final Talon rightfollower;
-
   private final DifferentialDrive drive;
 
   public CANDriveSubsystem() {
@@ -25,24 +20,16 @@ public class CANDriveSubsystem extends SubsystemBase {
     WPI_TalonSRX LeftLeader = new WPI_TalonSRX(DriveConstants.LEFT_LEADER_ID);
     WPI_TalonSRX RightLeader = new WPI_TalonSRX(DriveConstants.RIGHT_LEADER_ID);
 
-    WPI_TalonSRX leftFollower = new WPI_TalonSRX(DriveConstants.LEFT_FOLLOWER_ID);
-    WPI_TalonSRX rightFollower = new WPI_TalonSRX(DriveConstants.RIGHT_FOLLOWER_ID);
+    WPI_TalonSRX LeftFollower = new WPI_TalonSRX(DriveConstants.LEFT_FOLLOWER_ID);
+    WPI_TalonSRX RightFollower = new WPI_TalonSRX(DriveConstants.RIGHT_FOLLOWER_ID);
      
     // set up differential drive class
     drive = new DifferentialDrive(LeftLeader, RightLeader);
     LeftFollower.follow(LeftLeader);
     RightFollower.follow(RightLeader);
-
-  
+    
 //usb cable, weird type,  connect to rio, then phenix (note)
 
-    // Remove following, then apply config to right leader
-    //config.disableFollowerMode();
-    //rightLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    // Set conifg to inverted and then apply to left leader. Set Left side inverted
-    // so that postive values drive both sides forward
-    //config.inverted(true);
-    //leftLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
