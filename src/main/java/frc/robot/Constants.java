@@ -44,4 +44,11 @@ public final class Constants {
     public static final double kStowPos = 0;
     public static final double kScorePos = 25; 
   }
+  public static class LEDs {
+    public static final int kPWMPort = 9;
+    public static final double kColorGreen = 0.77;
+    public static final double kColorRed = 0.61;
+    public static final double kParty_Palette_Twinkles = -0.53;
 }
+}
+
