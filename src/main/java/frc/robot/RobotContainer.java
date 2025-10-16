@@ -93,7 +93,14 @@ public class RobotContainer {
       new ParallelCommandGroup(
       new InstantCommand(()-> pneumatics.pistonReverse(), pneumatics))));
   
-    Driver1.y().onTrue(new InstantCommand(()-> pneumatics.pistonToggle(), pneumatics));
+  Driver1.y().onTrue(new InstantCommand(()-> pneumatics.pistonToggle(), pneumatics));
+
+// TODO: add bahner sensor(detect if there is a blockage), E-stop(may not be nessary), speaker(if there is time and avaiable speaker)  
+    // Possibly remove:  Groundintake + Groundpivot (CANbot should not need it)
+    // Functions:  LED(default state and cancrushing sequence. possibly change colors if there is a blockage), 
+    //       Sensor(after time passes(2-5 sec) and object is still there(or in a speficied distance), activate blockage mode)
+    //       Blockage mode(robot disables itself(turn of or disable penuamtics and possibly driving) 
+                  //and lEDs and sound to alert that there is a blockage in the robot) 
   }
 
 
