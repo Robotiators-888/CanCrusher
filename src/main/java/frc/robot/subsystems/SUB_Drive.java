@@ -11,19 +11,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 // Class to drive the robot over CAN
-public class CANDriveSubsystem extends SubsystemBase {
+public class SUB_Drive extends SubsystemBase {
 
   private final DifferentialDrive drive;
-  static CANDriveSubsystem INSTANCE = null;
+  static SUB_Drive INSTANCE = null;
   WPI_TalonSRX LeftLeader;
   WPI_TalonSRX RightLeader;
   WPI_TalonSRX LeftFollower;
   WPI_TalonSRX RightFollower;
 
 
-  static public CANDriveSubsystem getInstance () {
+  static public SUB_Drive getInstance () {
     if (INSTANCE == null) {
-      INSTANCE = new CANDriveSubsystem();
+      INSTANCE = new SUB_Drive();
       return INSTANCE;
     }
     else {
@@ -31,7 +31,7 @@ public class CANDriveSubsystem extends SubsystemBase {
     }
   }
 
-  private CANDriveSubsystem() {
+  private SUB_Drive() {
     // create brushed motors for drive
     LeftLeader = new WPI_TalonSRX(DriveConstants.LEFT_LEADER_ID);
     RightLeader = new WPI_TalonSRX(DriveConstants.RIGHT_LEADER_ID);

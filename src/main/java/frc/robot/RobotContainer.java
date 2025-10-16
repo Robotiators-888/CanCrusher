@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.subsystems.CANDriveSubsystem;
-import frc.robot.subsystems.PneumaticsSubsystem;
+import frc.robot.subsystems.SUB_Drive;
+import frc.robot.subsystems.SUB_Pneumatics;
 
 
 /**
@@ -32,8 +32,8 @@ import frc.robot.subsystems.PneumaticsSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private static CANDriveSubsystem driveSubsystem = CANDriveSubsystem.getInstance();
-  private static PneumaticsSubsystem pneumatics = PneumaticsSubsystem.getInstance();
+  private static SUB_Drive driveSubsystem = SUB_Drive.getInstance();
+  private static SUB_Pneumatics pneumatics = SUB_Pneumatics.getInstance();
 
 
 
