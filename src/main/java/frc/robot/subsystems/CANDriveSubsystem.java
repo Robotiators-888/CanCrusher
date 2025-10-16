@@ -14,6 +14,7 @@ import frc.robot.Constants.DriveConstants;
 public class CANDriveSubsystem extends SubsystemBase {
 
   private final DifferentialDrive drive;
+  static CANDriveSubsystem INSTANCE = null;
 
   static public CANDriveSubsystem getInstance () {
     if (INSTANCE == null) {
