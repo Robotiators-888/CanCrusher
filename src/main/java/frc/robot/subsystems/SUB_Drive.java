@@ -42,7 +42,9 @@ public class SUB_Drive extends SubsystemBase {
     // set up differential drive class
     drive = new DifferentialDrive(LeftLeader, RightLeader);
     LeftFollower.follow(LeftLeader);
-    RightFollower.follow(RightLeader); 
+    RightFollower.follow(RightLeader);
+    LeftFollower.setInverted(true); 
+    RightFollower.setInverted(true); 
     //usb cable, weird type,  connect to rio, then phenix (note)
   }
 
