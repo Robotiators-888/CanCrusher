@@ -45,6 +45,7 @@ public class SUB_Drive extends SubsystemBase {
     RightFollower.follow(RightLeader);
     LeftFollower.setInverted(true); 
     RightFollower.setInverted(true); 
+    RightLeader.setInverted(true);
     //usb cable, weird type,  connect to rio, then phenix (note)
   }
 

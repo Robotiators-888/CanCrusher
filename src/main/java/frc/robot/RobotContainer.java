@@ -89,7 +89,7 @@ public class RobotContainer {
     Driver1.x().onTrue(new SequentialCommandGroup(
       new ParallelCommandGroup(
       new InstantCommand(()-> pneumatics.pistonGo(), pneumatics)),
-      new WaitCommand(.25),
+      new WaitCommand(2),
       new ParallelCommandGroup(
       new InstantCommand(()-> pneumatics.pistonReverse(), pneumatics))));
   
