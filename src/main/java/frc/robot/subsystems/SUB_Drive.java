@@ -5,8 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.Talon; 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX; 
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
@@ -21,12 +21,11 @@ public class SUB_Drive extends SubsystemBase {
   WPI_TalonSRX RightFollower;
 
 
-  static public SUB_Drive getInstance () {
+  static public SUB_Drive getInstance() {
     if (INSTANCE == null) {
       INSTANCE = new SUB_Drive();
       return INSTANCE;
-    }
-    else {
+    } else {
       return INSTANCE;
     }
   }
@@ -38,15 +37,15 @@ public class SUB_Drive extends SubsystemBase {
 
     LeftFollower = new WPI_TalonSRX(DriveConstants.LEFT_FOLLOWER_ID);
     RightFollower = new WPI_TalonSRX(DriveConstants.RIGHT_FOLLOWER_ID);
-     
+
     // set up differential drive class
     drive = new DifferentialDrive(LeftLeader, RightLeader);
     LeftFollower.follow(LeftLeader);
     RightFollower.follow(RightLeader);
-    LeftFollower.setInverted(true); 
-    RightFollower.setInverted(true); 
-    RightLeader.setInverted(true);
-    //usb cable, weird type,  connect to rio, then phenix (note)
+    // LeftLeader.setInverted(true);
+    // RightFollower.setInverted(true);
+    // RightLeader.setInverted(true);
+    // usb cable, weird type, connect to rio, then phenix (note)
   }
 
   @Override

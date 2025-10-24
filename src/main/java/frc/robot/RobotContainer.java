@@ -22,12 +22,9 @@ import frc.robot.subsystems.SUB_Pneumatics;
 
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
@@ -38,9 +35,11 @@ public class RobotContainer {
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController Driver1 = new CommandXboxController(OperatorConstants.kDriver1ControllerPort);
+  private final CommandXboxController Driver1 =
+      new CommandXboxController(OperatorConstants.kDriver1ControllerPort);
 
-  //private final CommandXboxController Driver2 = new CommandXboxController(OperatorConstants.kDriver2ControllerPort);
+  // private final CommandXboxController Driver2 = new
+  // CommandXboxController(OperatorConstants.kDriver2ControllerPort);
 
   // The autonomous chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -59,18 +58,13 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
+   * Use this method to define your trigger->command mappings. Triggers can be created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * predicate, or via the named factories in
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
   private void configureBindings() {
     // Set the default command for the drive subsystem to an instance of the
@@ -80,27 +74,27 @@ public class RobotContainer {
     // value). Similarly for the X axis where we need to flip the value so the
     // joystick matches the WPILib convention of counter-clockwise positive
     driveSubsystem.setDefaultCommand(new DriveCommand(
-        () -> -Driver1.getLeftY() *
-            (Driver1.getHID().getRightBumperButton() ? 1 : 0.5),
-        () -> -Driver1.getRightX(),
-        driveSubsystem));
+        () -> -Driver1.getLeftY() * (Driver1.getHID().getRightBumperButton() ? 1 : 0.5),
+        () -> -Driver1.getRightX(), driveSubsystem));
 
-  
-    Driver1.x().onTrue(new SequentialCommandGroup(
-      new ParallelCommandGroup(
-      new InstantCommand(()-> pneumatics.pistonGo(), pneumatics)),
-      new WaitCommand(2),
-      new ParallelCommandGroup(
-      new InstantCommand(()-> pneumatics.pistonReverse(), pneumatics))));
-  
-  Driver1.y().onTrue(new InstantCommand(()-> pneumatics.pistonToggle(), pneumatics));
 
-// TODO: add bahner sensor(detect if there is a blockage), E-stop(may not be nessary), speaker(if there is time and avaiable speaker)  
-    // Possibly remove:  Groundintake + Groundpivot (CANbot should not need it)
-    // Functions:  LED(default state and cancrushing sequence. possibly change colors if there is a blockage), 
-    //       Sensor(after time passes(2-5 sec) and object is still there(or in a speficied distance), activate blockage mode)
-    //       Blockage mode(robot disables itself(turn of or disable penuamtics and possibly driving) 
-                  //and lEDs and sound to alert that there is a blockage in the robot) 
+    Driver1.x()
+        .onTrue(new SequentialCommandGroup(
+            new ParallelCommandGroup(new InstantCommand(() -> pneumatics.pistonGo(), pneumatics)),
+            new WaitCommand(1.5), new ParallelCommandGroup(
+                new InstantCommand(() -> pneumatics.pistonReverse(), pneumatics))));
+
+    Driver1.y().onTrue(new InstantCommand(() -> pneumatics.pistonToggle(), pneumatics));
+
+    // TODO: add bahner sensor(detect if there is a blockage), E-stop(may not be nessary),
+    // speaker(if there is time and avaiable speaker)
+    // Possibly remove: Groundintake + Groundpivot (CANbot should not need it)
+    // Functions: LED(default state and cancrushing sequence. possibly change colors if there is a
+    // blockage),
+    // Sensor(after time passes(2-5 sec) and object is still there(or in a speficied distance),
+    // activate blockage mode)
+    // Blockage mode(robot disables itself(turn of or disable penuamtics and possibly driving)
+    // and lEDs and sound to alert that there is a blockage in the robot)
   }
 
 
