@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoCommand;
-import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.SUB_Drive;
 import frc.robot.subsystems.SUB_Pneumatics;
 
@@ -73,9 +72,16 @@ public class RobotContainer {
     // stick away from you (a negative value) drives the robot forwards (a positive
     // value). Similarly for the X axis where we need to flip the value so the
     // joystick matches the WPILib convention of counter-clockwise positive
-    driveSubsystem.setDefaultCommand(new DriveCommand(
-        () -> -Driver1.getLeftY() * (Driver1.getHID().getRightBumperButton() ? 1 : 0.5),
-        () -> -Driver1.getRightX(), driveSubsystem));
+    // driveSubsystem.setDefaultCommand(new DriveCommand(
+    //     () -> -Driver1.getLeftY() * (Driver1.getHID().getRightBumperButton() ? 1 : 0.5),
+    //     () -> -Driver1.getRightX(), driveSubsystem));
+
+    // Mathutil.applyDeadband makes sure no small movements are registered like stick drift, get raw axis returns a value of an axis between 1 and 0
+    // I think axis zero is the left joysticks y axis and axis 3 is te right joysticks y axis
+    // kDriveDeadband tells applyDeadband the value of movements that shouldn't be registered
+    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.drive(
+      MathUtil.applyDeadband(Driver1.getRawAxis(3),OperatorConstants.kDriveDeadband),
+      MathUtil.applyDeadband(Driver1.getRawAxis(0),OperatorConstants.kDriveDeadband)),driveSubsystem));
 
 
     Driver1.x()

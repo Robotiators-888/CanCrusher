@@ -42,9 +42,8 @@ public class SUB_Drive extends SubsystemBase {
     drive = new DifferentialDrive(LeftLeader, RightLeader);
     LeftFollower.follow(LeftLeader);
     RightFollower.follow(RightLeader);
-    // LeftLeader.setInverted(true);
-    // RightFollower.setInverted(true);
-    // RightLeader.setInverted(true);
+    LeftFollower.setInverted(true);
+    RightFollower.setInverted(true);
     // usb cable, weird type, connect to rio, then phenix (note)
   }
 
@@ -54,5 +53,10 @@ public class SUB_Drive extends SubsystemBase {
   // sets the speed of the drive motors
   public void driveArcade(double xSpeed, double zRotation) {
     drive.arcadeDrive(xSpeed, zRotation);
+  }
+  // Takes values between -1 and 1
+  public void drive (double rSpeed, double lSpeed) {
+    RightLeader.set(rSpeed);
+    LeftLeader.set(lSpeed);
   }
 }
