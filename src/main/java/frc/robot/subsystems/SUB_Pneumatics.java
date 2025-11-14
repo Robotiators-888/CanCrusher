@@ -9,10 +9,12 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class SUB_Pneumatics extends SubsystemBase{
     private static SUB_Pneumatics INSTANCE = null;
 
+    private DigitalInput bannerSensor = new DigitalInput(9); // change pin 
 
     StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault()
   .getStructTopic("AdvantageScopeOdometry", Pose2d.struct).publish();
@@ -75,9 +77,13 @@ public class SUB_Pneumatics extends SubsystemBase{
     SmartDashboard.putNumber("Compressor Current", getCompressorCurrent());    
     SmartDashboard.putBoolean("Compressor Enabled", isCompressorEnabled());
     SmartDashboard.putBoolean("Pressure Switch Value", getPressureSwitchValue());
+    SmartDashboard.putBoolean("Banner sensor", bannerSensor.get());
     }
 
-    
+    public boolean systemBlocked() {
+      return !bannerSensor.get();
+      // add function that if there is a blockage the robot stops moving and penumatics is disabled as well
+    }
 
     //  m_solenoid.set(m_stick.getRawButton(kSolenoidButton));
     // - can be used for enabling the piston using a true or false statment

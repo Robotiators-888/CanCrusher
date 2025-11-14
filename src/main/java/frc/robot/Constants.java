@@ -18,10 +18,10 @@ package frc.robot;
  */
 public final class Constants {
   public static class DriveConstants {
-    public static final int LEFT_LEADER_ID = 1; //TODO: Change IDs
-    public static final int LEFT_FOLLOWER_ID = 2;
-    public static final int RIGHT_LEADER_ID = 3;
-    public static final int RIGHT_FOLLOWER_ID = 4;
+    public static final int LEFT_LEADER_ID = 21; //TODO: Change talon ids 
+    public static final int LEFT_FOLLOWER_ID = 22;
+    public static final int RIGHT_LEADER_ID = 23;
+    public static final int RIGHT_FOLLOWER_ID = 24;
 
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
   }
@@ -32,16 +32,10 @@ public final class Constants {
     public static final double kDriveDeadband = 0.05;
 }
 
-  public static class GroundIntakeConstants {
-    public static final int kGroundIntakeCanID = 51;
-    public static final double kGroundIntakeSpeed = -0.45;
-    public static final double kGroundEjectSpeed = 0.45;
-  }
-  public static class GroundPivotConstants {
-    public static final int kGroundPivotCanID = 52;
-    public static final double kIntakePos = 135;
-    public static final double kIntakeThreshold = 10; 
-    public static final double kStowPos = 0;
-    public static final double kScorePos = 25; 
-  }
+public static class LED {
+  public static final int kPWMPort = 9;
+  public static final double kColorGreen = 0.77;
+  public static final double kColorRed = 0.61;
+  public static final double kParty_Palette_Twinkles = -0.53;
+}
 }
