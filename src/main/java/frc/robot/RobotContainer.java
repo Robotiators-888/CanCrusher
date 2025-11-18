@@ -80,8 +80,8 @@ public class RobotContainer {
     // I think axis zero is the left joysticks y axis and axis 3 is te right joysticks y axis
     // kDriveDeadband tells applyDeadband the value of movements that shouldn't be registered
     driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.drive(
-      MathUtil.applyDeadband(Driver1.getRawAxis(3),OperatorConstants.kDriveDeadband),
-      MathUtil.applyDeadband(Driver1.getRawAxis(0),OperatorConstants.kDriveDeadband)),driveSubsystem));
+      MathUtil.applyDeadband(Driver1.getRawAxis(5)*0.3,OperatorConstants.kDriveDeadband),
+      MathUtil.applyDeadband(-Driver1.getRawAxis(1)*0.3,OperatorConstants.kDriveDeadband)),driveSubsystem));
 
 
     Driver1.x()
